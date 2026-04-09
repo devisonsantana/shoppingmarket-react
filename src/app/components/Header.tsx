@@ -21,8 +21,6 @@ const Header = () => {
 
   const {
     data: productsByName,
-    isLoading,
-    error,
   } = useQuery<ProductProps[], Error>(
     ["query-products-by-name", getProductName],
     async () => {

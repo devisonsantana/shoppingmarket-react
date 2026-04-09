@@ -40,8 +40,6 @@ const Home = () => {
 
   const {
     data: products,
-    error,
-    isLoading,
   } = useQuery<ProductProps[], Error>(["query-products", getTypeFilter], async () => {
     return await findAll(getTypeFilter);
   });
