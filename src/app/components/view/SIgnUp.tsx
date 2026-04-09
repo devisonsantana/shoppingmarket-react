@@ -25,14 +25,14 @@ export const SignUp = () => {
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    void fetch("http://shoppingmarketapi.tryasp.net/users", {
+    void fetch(`${import.meta.env.VITE_BASE_URL}/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
       .then(() => {
-        navigate("/login");
+        void navigate("/login");
       });
   };
 
