@@ -7,7 +7,7 @@ import { debounce, isNull } from "lodash";
 import { List } from "./List";
 import { useOnClickOutside } from "../hooks/useClickOutside";
 import { CiShoppingCart } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useShoppingList } from "../contexts/ShoppingCart";
 import { authService } from "../services/auth.service";
 
@@ -16,12 +16,11 @@ const Header = () => {
   const [getIsOpen, setIsOpen] = useState(false);
   const useRefDropDown = useRef<HTMLUListElement>(null);
   const { totalQtd } = useShoppingList();
+  const navigate = useNavigate();
 
   const { searchName } = ProductService;
 
-  const {
-    data: productsByName,
-  } = useQuery<ProductProps[], Error>(
+  const { data: productsByName } = useQuery<ProductProps[], Error>(
     ["query-products-by-name", getProductName],
     async () => {
       return await searchName(getProductName);
@@ -91,7 +90,11 @@ const Header = () => {
             )}
           </Link>
           {isNull(authService.getLoggedUser()) && (
-            <Link className="cursor-pointer hover:text-blue-700" to="/login" relative="path">
+            <Link
+              className="cursor-pointer hover:text-blue-700"
+              to="/login"
+              relative="path"
+            >
               Login
             </Link>
           )}
@@ -100,7 +103,7 @@ const Header = () => {
               className="cursor-pointer hover:text-red-700"
               onClick={() => {
                 authService.cleanLoggedUser();
-                window.location.reload();
+                void navigate("/");
               }}
             >
               Logout
